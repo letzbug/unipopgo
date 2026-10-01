@@ -1,0 +1,54 @@
+{
+  "_default": {
+    "room": "Salle à confirmer",
+    "phone": "+352 8002 9001",
+    "access": "Entrée principale. Les informations détaillées pour le bâtiment, l'étage et le chemin vers la salle peuvent être ajoutées ici.",
+    "equipment": [
+      "Ordinateur (Windows)",
+      "Tableau blanc",
+      "Projecteur",
+      "HDMI / USB-C",
+      "Haut-parleurs",
+      "Wi-Fi"
+    ],
+    "photos": [
+      {
+        "label": "Bâtiment"
+      },
+      {
+        "label": "Entrée"
+      },
+      {
+        "label": "Salle"
+      }
+    ],
+    "tech": [
+      {
+        "title": "1. Allumer l'ordinateur",
+        "icon": "⏻",
+        "text": "Appuyez sur le bouton d'alimentation du PC."
+      },
+      {
+        "title": "2. Démarrer le projecteur",
+        "icon": "◉",
+        "text": "Utilisez la télécommande ou le panneau mural."
+      },
+      {
+        "title": "3. Sélectionner la source (HDMI)",
+        "icon": "HDMI 1",
+        "text": "Choisissez l'entrée HDMI correspondant à votre appareil."
+      },
+      {
+        "title": "4. Régler le son",
+        "icon": "🔊",
+        "text": "Vérifiez le volume du PC et du système audio."
+      }
+    ]
+  },
+  "places": {},
+  "courses": {
+    "arbd8": {
+      "room": "Salle à confirmer"
+    }
+  }
+}

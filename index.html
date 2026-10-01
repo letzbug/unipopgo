@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="fr" class="is-guest">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0A1430">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="UniPop Go">
+  <title>UniPop Go</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..700&display=swap">
+  <link rel="stylesheet" href="style.css?v=2.0.0">
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21Z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.2-3.8 4-5.5 7.5-5.5s6.3 1.7 7.5 5.5"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5.5 8 12l6.5 6.5"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M9.5 5.5 16 12l-6.5 6.5"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><path d="M12 3 20 20l-8-3.5L4 20 12 3Z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.5 4.2-2 1.4a11 11 0 0 0 6.2 6.2l1.4-2 4.2 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z"/></symbol>
+    <symbol id="i-cal-add" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17M12 13v5M9.5 15.5h5"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5M16 6.5l2.5 2.5M14 8.5l2 2"/></symbol>
+    <symbol id="i-parking" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M9.5 17V7.5h3.3a2.8 2.8 0 0 1 0 5.6H9.5"/></symbol>
+    <symbol id="i-bus" viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="14" rx="3"/><path d="M5 11h14M8 17.5V20M16 17.5V20"/><circle cx="8.5" cy="14.2" r=".6"/><circle cx="15.5" cy="14.2" r=".6"/></symbol>
+    <symbol id="i-door" viewBox="0 0 24 24"><path d="M4 20.5h16M6.5 20.5V4.5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16"/><circle cx="14.5" cy="12.5" r=".7"/></symbol>
+    <symbol id="i-access" viewBox="0 0 24 24"><circle cx="11" cy="4.8" r="1.6"/><path d="M11 8v5.5h5l2 5.5M11 10.5h4.5"/><path d="M8.2 11.3a5 5 0 1 0 7 6.4"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.6 3.5 5.5 3.5 8.5s-1 5.9-3.5 8.5c-2.5-2.6-3.5-5.5-3.5-8.5s1-5.9 3.5-8.5Z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6.5 3.5h7l4 4v13h-11z"/><path d="M13.5 3.5v4h4M9 13h6M9 16.5h6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m10 8.5 5.5 3.5-5.5 3.5z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><circle cx="9" cy="10" r="1.8"/><path d="m4 17.5 5-4.5 4 3.5 2.5-2 4.5 3.5"/></symbol>
+    <symbol id="i-tool" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="11" rx="2"/><path d="M8.5 20h7M12 16v4"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M14 4.5H6.5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1H14M10.5 12h10M17 8.5l3.5 3.5-3.5 3.5"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6v5.5c0 4.3-3 7.7-7 9-4-1.3-7-4.7-7-9V6l7-2.5Z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path d="M4 20.5h16M6 20.5V5.5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v15M15 9.5h3a1 1 0 0 1 1 1v10M9 8h3M9 11.5h3M9 15h3"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4.5h5.5V10M19.5 4.5 11 13M17.5 14v4.5a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1H10"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+
+  <!-- Desktop / iPad landscape sidebar -->
+  <aside class="rail" aria-label="Navigation principale">
+    <div class="rail-brand">
+      <img src="assets/icon.svg" alt="" width="40" height="40">
+      <div><strong>UniPop Go</strong><small>Espace formateur</small></div>
+    </div>
+    <nav class="rail-nav">
+      <button class="nav-item" data-go="homeScreen"><svg class="i"><use href="#i-today"/></svg><span>Aujourd'hui</span></button>
+      <button class="nav-item" data-go="calendarScreen"><svg class="i"><use href="#i-calendar"/></svg><span>Calendrier</span></button>
+      <button class="nav-item" data-go="placesScreen"><svg class="i"><use href="#i-pin"/></svg><span>Lieux</span></button>
+      <button class="nav-item" data-go="loginScreen"><svg class="i"><use href="#i-user"/></svg><span>Mon compte</span></button>
+    </nav>
+    <div class="rail-foot">
+      <div class="rail-account">
+        <span class="avatar" id="railAvatar">UP</span>
+        <div><strong id="railName">Formateur</strong><small id="railEmail"></small></div>
+      </div>
+      <p class="credit">Built by Frank G<br><strong>IBM Certified AI Developer</strong></p>
+    </div>
+  </aside>
+
+  <div class="stage">
+
+    <!-- ACCOUNT / LOGIN -->
+    <section class="screen active" id="loginScreen">
+      <div class="login-shell">
+        <div class="login-card">
+          <div class="login-brand">
+            <img src="assets/icon.svg" alt="" width="56" height="56">
+            <h1>UniPop Go</h1>
+          </div>
+
+          <div id="authLoggedOut">
+            <p class="lead">Connectez-vous avec votre compte formateur.</p>
+
+            <div class="auth-form">
+              <label class="field">
+                <span class="field-label">E-mail</span>
+                <span class="field-box"><svg class="i"><use href="#i-mail"/></svg><input id="authEmail" type="email" autocomplete="email" inputmode="email" placeholder="prenom.nom@…"></span>
+              </label>
+              <label class="field">
+                <span class="field-label">Mot de passe</span>
+                <span class="field-box"><svg class="i"><use href="#i-lock"/></svg><input id="authPassword" type="password" autocomplete="current-password" placeholder="Votre mot de passe"></span>
+              </label>
+              <button class="btn btn-primary btn-block" id="authLoginButton" type="button">Se connecter</button>
+              <div class="auth-links">
+                <button id="showRegister" type="button">Première connexion</button>
+                <button id="forgotPassword" type="button">Mot de passe oublié ?</button>
+              </div>
+            </div>
+
+            <div id="registerPanel" class="auth-panel hidden">
+              <h3>Activer mon accès</h3>
+              <p>Entrez votre e-mail, le code d’activation reçu de UniPop et choisissez votre mot de passe.</p>
+              <label class="field"><span class="field-label">E-mail</span>
+                <span class="field-box"><svg class="i"><use href="#i-mail"/></svg><input id="registerEmail" type="email" autocomplete="email" inputmode="email"></span></label>
+              <label class="field"><span class="field-label">Code d’activation</span>
+                <span class="field-box"><svg class="i"><use href="#i-key"/></svg><input id="activationCode" class="code-input" type="text" autocomplete="one-time-code" autocapitalize="characters" placeholder="UPG-XXXX-XXXX"></span></label>
+              <label class="field"><span class="field-label">Nouveau mot de passe</span>
+                <span class="field-box"><svg class="i"><use href="#i-lock"/></svg><input id="registerPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Minimum 8 caractères"></span></label>
+              <label class="field"><span class="field-label">Confirmer le mot de passe</span>
+                <span class="field-box"><svg class="i"><use href="#i-lock"/></svg><input id="registerPassword2" type="password" autocomplete="new-password" minlength="8" placeholder="Répétez le mot de passe"></span></label>
+              <button class="btn btn-primary btn-block" id="registerButton" type="button">Activer mon accès</button>
+              <div id="activationStatus" class="status" aria-live="polite"></div>
+              <button class="btn btn-quiet btn-block" id="cancelRegister" type="button">Annuler</button>
+            </div>
+
+            <div id="recoveryPanel" class="auth-panel hidden">
+              <h3>Choisir votre mot de passe</h3>
+              <p>Choisissez un mot de passe personnel pour votre compte UniPop Go.</p>
+              <label class="field"><span class="field-label">Nouveau mot de passe</span>
+                <span class="field-box"><svg class="i"><use href="#i-lock"/></svg><input id="recoveryPassword" type="password" autocomplete="new-password"></span></label>
+              <label class="field"><span class="field-label">Confirmer le mot de passe</span>
+                <span class="field-box"><svg class="i"><use href="#i-lock"/></svg><input id="recoveryPassword2" type="password" autocomplete="new-password"></span></label>
+              <button class="btn btn-primary btn-block" id="saveRecoveryPassword" type="button">Enregistrer le mot de passe</button>
+            </div>
+
+            <div id="authStatus" class="status" aria-live="polite"></div>
+            <div id="dataStatus" class="status status-quiet" aria-live="polite">Chargement du catalogue…</div>
+          </div>
+
+          <div id="authLoggedIn" class="hidden">
+            <div class="account-card">
+              <span class="avatar avatar-lg" id="accountAvatar">UP</span>
+              <div>
+                <small>Connecté en tant que</small>
+                <h3 id="accountTrainer">Formateur</h3>
+                <p id="accountEmail"></p>
+              </div>
+            </div>
+            <div id="accountBlocked" class="notice notice-warn hidden">
+              Votre accès UniPop Go a été désactivé. Veuillez contacter UniPop.
+            </div>
+            <div id="accountStatus" class="status status-quiet" aria-live="polite"></div>
+            <div class="account-actions">
+              <button class="btn btn-primary btn-block" id="accountCoursesButton" type="button">Voir mes cours</button>
+              <button class="btn btn-glass btn-block" id="accountCalendarButton" type="button"><svg class="i"><use href="#i-calendar"/></svg>Aller au calendrier</button>
+              <button class="btn btn-glass btn-block hidden" id="openAdminButton" type="button"><svg class="i"><use href="#i-shield"/></svg>Ouvrir l’administration</button>
+              <button class="btn btn-quiet btn-block" id="logoutButton" type="button"><svg class="i"><use href="#i-logout"/></svg>Se déconnecter</button>
+            </div>
+          </div>
+        </div>
+        <p class="credit login-credit">Built by Frank G · <strong>IBM Certified AI Developer</strong></p>
+      </div>
+      <div class="skyline" aria-hidden="true"><img src="assets/skyline.webp" alt=""></div>
+    </section>
+
+    <!-- TODAY -->
+    <section class="screen" id="homeScreen">
+      <header class="page-head">
+        <div>
+          <p class="page-kicker" id="todayLabel"></p>
+          <h1 id="helloName">Bonjour</h1>
+        </div>
+        <button class="icon-btn" id="calendarTopButton" type="button" aria-label="Calendrier"><svg class="i"><use href="#i-calendar"/></svg></button>
+      </header>
+      <main class="page">
+        <div class="home-grid">
+          <div class="home-main">
+            <div id="nextTicket"></div>
+            <div id="todayBlock"></div>
+          </div>
+          <div class="home-side">
+            <h2 class="section-title">Vos prochains cours</h2>
+            <div id="nextCourses"></div>
+            <button class="btn btn-glass btn-block" id="calendarButton" type="button"><svg class="i"><use href="#i-calendar"/></svg>Voir mon calendrier</button>
+          </div>
+        </div>
+        <!-- kept for compatibility with older markup -->
+        <div id="todayCourse" hidden></div>
+        <p class="credit page-credit">Built by Frank G · <strong>IBM Certified AI Developer</strong></p>
+      </main>
+    </section>
+
+    <!-- COURSE DETAIL -->
+    <section class="screen" id="detailScreen">
+      <header class="detail-hero" id="detailHero">
+        <div class="hero-bg" id="detailHeroBg"></div>
+        <div class="hero-top">
+          <button class="icon-btn" data-back type="button" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button>
+          <span>Détails du cours</span>
+          <span class="icon-btn-spacer"></span>
+        </div>
+        <div id="detailIntro" class="detail-intro"></div>
+        <div class="quick-actions">
+          <button id="routeButton" type="button"><svg class="i"><use href="#i-route"/></svg><span>Itinéraire</span></button>
+          <button id="phoneButton" type="button"><svg class="i"><use href="#i-phone"/></svg><span>Appeler</span></button>
+          <button id="icsButton" type="button"><svg class="i"><use href="#i-cal-add"/></svg><span>Ajouter au calendrier</span></button>
+        </div>
+      </header>
+      <main class="page">
+        <div id="courseSiteDetail" class="detail-body"></div>
+      </main>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="screen" id="calendarScreen">
+      <header class="page-head">
+        <div class="head-with-back">
+          <button class="icon-btn" data-back type="button" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button>
+          <h1>Calendrier</h1>
+        </div>
+      </header>
+      <main class="page">
+        <div class="calendar-layout">
+          <section class="calendar-box glass">
+            <div class="calendar-head">
+              <button class="icon-btn" id="prevMonth" type="button" aria-label="Mois précédent"><svg class="i"><use href="#i-back"/></svg></button>
+              <strong id="monthTitle"></strong>
+              <button class="icon-btn" id="nextMonth" type="button" aria-label="Mois suivant"><svg class="i"><use href="#i-next"/></svg></button>
+            </div>
+            <div class="week-row" aria-hidden="true"><span>lun</span><span>mar</span><span>mer</span><span>jeu</span><span>ven</span><span>sam</span><span>dim</span></div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend">
+              <span><i class="lg lg-course"></i>Jour avec cours</span>
+              <span><i class="lg lg-school"></i>Congé scolaire</span>
+              <span><i class="lg lg-public"></i>Jour férié</span>
+            </div>
+          </section>
+          <div class="calendar-side">
+            <h2 id="selectedDayTitle" class="section-title"></h2>
+            <div id="selectedDayCourses"></div>
+            <h2 class="section-title">Autres cours</h2>
+            <div id="calendarOtherCourses"></div>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <!-- TECH (legacy) -->
+    <section class="screen" id="techScreen">
+      <header class="page-head">
+        <div class="head-with-back">
+          <button class="icon-btn" data-back type="button" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button>
+          <h1 id="techTitle">Guide technique</h1>
+        </div>
+      </header>
+      <main class="page"><div id="techSteps" class="tech-steps"></div></main>
+    </section>
+
+    <!-- PLACES -->
+    <section class="screen" id="placesScreen">
+      <header class="page-head">
+        <div class="head-with-back">
+          <button class="icon-btn" data-back type="button" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button>
+          <div>
+            <h1>Lieux</h1>
+            <p class="page-sub">Les bâtiments où vous enseignez.</p>
+          </div>
+        </div>
+      </header>
+      <main class="page">
+        <div id="placesList" class="place-grid"></div>
+        <section class="discover glass" id="discoverSitesCard">
+          <svg class="i discover-icon"><use href="#i-building"/></svg>
+          <div>
+            <h3>Découvrez les autres sites</h3>
+            <p>Explorez les autres lieux et salles disponibles pour vos futurs cours.</p>
+          </div>
+          <button class="btn btn-glass" type="button" id="allSitesButton">Voir tous les sites</button>
+        </section>
+      </main>
+    </section>
+
+    <!-- ALL SITES -->
+    <section class="screen" id="allSitesScreen">
+      <header class="page-head">
+        <div class="head-with-back">
+          <button class="icon-btn" data-back type="button" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button>
+          <div>
+            <h1>Tous les sites</h1>
+            <p class="page-sub">Les bâtiments et salles disponibles pour organiser vos futurs cours.</p>
+          </div>
+        </div>
+      </header>
+      <main class="page"><div id="allSitesList" class="place-grid"></div></main>
+    </section>
+
+    <!-- PLACE DETAIL -->
+    <section class="screen" id="placeDetailScreen">
+      <header class="place-hero">
+        <img id="placeHero" alt="">
+        <div class="hero-top">
+          <button class="icon-btn" data-back type="button" aria-label="Retour"><svg class="i"><use href="#i-back"/></svg></button>
+          <span id="placeDetailTopTitle">Lieu</span>
+          <span class="icon-btn-spacer"></span>
+        </div>
+        <div class="place-hero-text">
+          <h1 id="placeName"></h1>
+          <p id="placeAddress"></p>
+        </div>
+      </header>
+      <main class="page">
+        <div class="detail-body">
+          <div class="map-buttons">
+            <button class="btn btn-glass" id="placeGoogleMaps" type="button"><svg class="i"><use href="#i-route"/></svg>Google Maps</button>
+            <button class="btn btn-glass" id="placeAppleMaps" type="button"><svg class="i"><use href="#i-route"/></svg>Apple Plans</button>
+          </div>
+          <p id="placeDescription" class="prose"></p>
+
+          <section class="block"><h2 class="section-title">Accès</h2><div id="placeAccessCards" class="access-grid"></div></section>
+          <section id="placeGallerySection" class="block"><h2 class="section-title">Photos de l'accès</h2><div id="placeGallery" class="gallery"></div></section>
+          <section id="placeRoomsSection" class="block"><h2 class="section-title">Salles de cours</h2><div id="placeRooms" class="rooms"></div></section>
+          <section id="placeGuideSection" class="block hidden"></section>
+          <section id="placePlansSection" class="block"><h2 class="section-title">Plans & documents</h2><div id="placePlans" class="file-list"></div></section>
+          <section id="placeMediaSection" class="block hidden"><h2 class="section-title">Médias</h2><div id="placeMedia" class="file-list"></div></section>
+          <section id="placeTutorialsSection" class="block"><h2 class="section-title">Tutoriels</h2><div id="placeTutorials" class="file-list"></div></section>
+          <section id="placeContactSection" class="block hidden"><h2 class="section-title">Contact</h2><div id="placeContact" class="file-list"></div></section>
+          <section id="placeMapSection" class="block hidden"><h2 class="section-title">Carte</h2>
+            <iframe id="placeMapFrame" class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Carte du lieu"></iframe></section>
+        </div>
+      </main>
+    </section>
+
+  </div>
+
+  <!-- Phone / tablet tab bar -->
+  <nav class="tabbar" aria-label="Navigation principale">
+    <button class="nav-item" data-go="homeScreen"><svg class="i"><use href="#i-today"/></svg><span>Aujourd'hui</span></button>
+    <button class="nav-item" data-go="calendarScreen"><svg class="i"><use href="#i-calendar"/></svg><span>Calendrier</span></button>
+    <button class="nav-item" data-go="placesScreen"><svg class="i"><use href="#i-pin"/></svg><span>Lieux</span></button>
+    <button class="nav-item" data-go="loginScreen"><svg class="i"><use href="#i-user"/></svg><span>Compte</span></button>
+  </nav>
+</div>
+
+<!-- Guide / photo viewer -->
+<div id="guideViewerOverlay" class="viewer hidden" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+  <div class="viewer-bar">
+    <strong id="viewerTitle">Guide technique</strong>
+    <div class="viewer-actions">
+      <a id="viewerOpen" class="icon-btn" target="_blank" rel="noopener" aria-label="Ouvrir dans un nouvel onglet"><svg class="i"><use href="#i-external"/></svg></a>
+      <button id="guideViewerClose" class="icon-btn" type="button" aria-label="Fermer"><svg class="i"><use href="#i-close"/></svg></button>
+    </div>
+  </div>
+  <div class="viewer-stage" id="guideViewerStage">
+    <img id="guideViewerImage" alt="" hidden>
+    <iframe id="guideViewerFrame" title="Document" hidden></iframe>
+  </div>
+</div>
+
+<script>
+(function(){
+  if(!("serviceWorker" in navigator))return;
+  window.addEventListener("load",async()=>{
+    try{
+      const reg=await navigator.serviceWorker.register("sw.js",{updateViaCache:"none"});
+      reg.update();
+      const hadController=!!navigator.serviceWorker.controller;
+      let refreshing=false;
+      navigator.serviceWorker.addEventListener("controllerchange",()=>{
+        if(refreshing||!hadController)return;refreshing=true;location.reload();
+      });
+    }catch(err){console.warn("SW",err);}
+  });
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js?v=2.0.0"></script>
+</body>
+</html>

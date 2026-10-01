@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0A1430">
+  <meta name="color-scheme" content="dark">
+  <title>UniPop Go · Administration</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..700&display=swap">
+  <link rel="stylesheet" href="admin.css?v=2.0.0">
+</head>
+<body>
+<main class="shell">
+  <header class="top">
+    <div class="brand">
+      <img src="assets/icon.svg" alt="" width="48" height="48">
+      <div>
+        <h1>Administration</h1>
+        <p>Formateurs, administrateurs et codes d’activation.</p>
+      </div>
+    </div>
+    <div class="head-actions">
+      <a href="index.html" class="btn btn-glass">Retour à UniPop Go</a>
+      <button id="logout" class="btn btn-quiet hidden" type="button">Déconnexion</button>
+    </div>
+  </header>
+
+  <section id="gate" class="panel gate">
+    <h2>Connexion administrateur</h2>
+    <div class="login-grid">
+      <label class="field"><span>E-mail</span><input id="email" type="email" autocomplete="email" placeholder="prenom.nom@…"></label>
+      <label class="field"><span>Mot de passe</span><input id="password" type="password" autocomplete="current-password" placeholder="Mot de passe"></label>
+      <button id="login" class="btn btn-primary" type="button">Se connecter</button>
+    </div>
+    <p id="gateStatus" class="status"></p>
+  </section>
+
+  <div id="app" class="hidden">
+    <section class="summary">
+      <div>
+        <small>Connecté en tant que</small>
+        <strong id="adminIdentity">Administrateur</strong>
+      </div>
+      <button id="refresh" class="btn btn-glass" type="button">Actualiser la liste</button>
+    </section>
+
+    <div class="cols">
+      <section class="panel create">
+        <div class="panel-title">
+          <span class="step">1</span>
+          <div>
+            <h2>Créer ou réactiver un accès</h2>
+            <p>Le code généré est transmis directement au formateur. Aucun e-mail automatique n’est envoyé.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <label class="field" id="trainerField"><span>Formateur</span>
+            <input id="trainer" list="names" placeholder="Nom du formateur">
+            <datalist id="names"></datalist>
+          </label>
+          <label class="field"><span>E-mail</span>
+            <input id="trainerEmail" type="email" placeholder="prenom.nom@…">
+          </label>
+          <label class="field"><span>Rôle</span>
+            <select id="role">
+              <option value="trainer">Formateur</option>
+              <option value="admin">Administrateur</option>
+            </select>
+          </label>
+          <button id="create" class="btn btn-primary" type="button">Créer / réactiver l’accès</button>
+        </div>
+
+        <div id="createdCode" class="created-code hidden">
+          <div>
+            <small>Code d’activation</small>
+            <strong id="createdCodeValue"></strong>
+          </div>
+          <button id="copyCreatedCode" class="btn btn-glass" type="button">Copier le code</button>
+        </div>
+        <p id="createStatus" class="status"></p>
+      </section>
+
+      <section class="panel users">
+        <div class="bar">
+          <div class="panel-title">
+            <span class="step">2</span>
+            <div>
+              <h2>Accès utilisateurs</h2>
+              <small id="count"></small>
+            </div>
+          </div>
+          <div class="filters">
+            <input id="search" type="search" placeholder="Rechercher nom ou e-mail" aria-label="Rechercher">
+            <select id="roleFilter" aria-label="Filtrer par rôle">
+              <option value="all">Tous</option>
+              <option value="trainer">Formateurs</option>
+              <option value="admin">Administrateurs</option>
+              <option value="blocked">Bloqués</option>
+            </select>
+            <select id="pageSize" aria-label="Nombre d'utilisateurs par page">
+              <option value="20" selected>20 / page</option>
+              <option value="50">50 / page</option>
+              <option value="100">100 / page</option>
+            </select>
+          </div>
+        </div>
+        <div id="list" class="users-list"></div>
+        <div id="pager" class="pager hidden">
+          <div id="pagerInfo" class="pager-info"></div>
+          <div class="pager-controls">
+            <button id="prevPage" class="btn btn-glass btn-sm" type="button">Précédent</button>
+            <div id="pageNumbers" class="page-numbers"></div>
+            <button id="nextPage" class="btn btn-glass btn-sm" type="button">Suivant</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="admin.js?v=2.0.0"></script>
+</body>
+</html>
