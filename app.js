@@ -899,6 +899,7 @@ function renderCalendar(){
 }
 
 /* ---------- places ---------- */
+const bySiteName=(a,b)=>String(a.name||"").localeCompare(String(b.name||""),"fr",{sensitivity:"base",numeric:true});
 function siteCard(site,rooms,personal){
   const thumb=site.heroThumb||site.hero;
   const count=rooms.length?`${rooms.length} salle${rooms.length>1?"s":""}`:"Salle à confirmer";
@@ -921,7 +922,7 @@ function renderPlaces(){
     if(site&&site.active!==false)matched.set(String(site.id),site);
     else{const k=locationKey(c)||normalizeText(venueLabel(c));if(k)unmatched.set(k,c);}
   });
-  const cards=[...matched.values()].map(s=>siteCard(s,trainerRoomsForSite(s,courses),true));
+  const cards=[...matched.values()].sort(bySiteName).map(s=>siteCard(s,trainerRoomsForSite(s,courses),true));
   const fallback=[...unmatched.values()].map(c=>{
     const a=c.adresseCours||{},loc=locationData(c);
     return `<div class="site-card is-static">
@@ -938,7 +939,7 @@ function renderPlaces(){
   bindSiteCards("#placesList");
 }
 function renderAllSites(){
-  const all=(sitesData.locations||[]).filter(s=>s&&s.active!==false);
+  const all=(sitesData.locations||[]).filter(s=>s&&s.active!==false).sort(bySiteName);
   $("#allSitesList").innerHTML=all.length?all.map(s=>siteCard(s,s.rooms||[],false)).join(""):emptyState("Aucun autre site disponible pour le moment.");
   bindSiteCards("#allSitesList");
 }

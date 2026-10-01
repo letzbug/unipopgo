@@ -1,11 +1,11 @@
 /* UniPop Go v2 service worker.
    Own cache prefix ("unipop-go2-") so it never touches the caches of the
    old app (which only clears "unipop-formateur-*"), and vice versa. */
-const VERSION="2.0.1";
+const VERSION="2.0.2";
 const PREFIX="unipop-go2-";
 const CACHE=PREFIX+VERSION;
 const CORE=[
-  "./","./index.html","./style.css?v=2.0.1","./app.js?v=2.0.0",
+  "./","./index.html","./style.css?v=2.0.2","./app.js?v=2.0.2",
   "./manifest.webmanifest","./data/locations.json",
   "./assets/icon.svg","./assets/icon-180.png","./assets/icon-192.png","./assets/skyline.webp"
 ];
