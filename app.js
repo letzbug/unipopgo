@@ -760,11 +760,11 @@ function contactRows(s){
   return out.join("");
 }
 function unipopContactHtml(){
-  return `<div class="unipop-contact glass">
-    <p>Pour toute question concernant le site veuillez vous adresser uniquement au bureau d’UniPop!</p>
-    <a href="tel:+35224756400"><b>Tél. :</b> (+352) 247 56400</a>
-    <a href="mailto:info@unipop.lu"><b>e-Mail :</b> info@unipop.lu</a>
-    <small>de 8:00 à 12h00 et de 13h00 à 17h00</small>
+  return `<div class="file-list glass">
+    <div class="unipop-contact-note">${icon("building")}<span>Pour toute question concernant le site veuillez vous adresser uniquement au bureau d’UniPop!</span></div>
+    ${fileLink("tel:+35224756400","phone","(+352) 247 56400","Appeler",false)}
+    ${fileLink("mailto:info@unipop.lu","mail","info@unipop.lu","Écrire",false)}
+    <div class="unipop-contact-hours">${icon("today")}<span>de 8:00 à 12h00 et de 13h00 à 17h00</span></div>
   </div>`;
 }
 function siteContactBlock(contact){
