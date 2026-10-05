@@ -759,6 +759,17 @@ function contactRows(s){
   if(s.email)out.push(fileLink(`mailto:${s.email}`,"mail",s.email,"Écrire",false));
   return out.join("");
 }
+function unipopContactHtml(){
+  return `<div class="unipop-contact glass">
+    <p>Pour toute question concernant le site veuillez vous adresser uniquement au bureau d’UniPop!</p>
+    <a href="tel:+35224756400"><b>Tél. :</b> (+352) 247 56400</a>
+    <a href="mailto:info@unipop.lu"><b>e-Mail :</b> info@unipop.lu</a>
+    <small>de 8:00 à 12h00 et de 13h00 à 17h00</small>
+  </div>`;
+}
+function siteContactBlock(contact){
+  return `${block("Contact UniPop",unipopContactHtml())}${contact?block("Contact en cas d’urgence (retard imprévu ou autre) contact du site !",`<div class="file-list glass">${contact}</div>`):""}`;
+}
 function siteHasGps(s){return !!s&&s.lat!==""&&s.lng!==""&&s.lat!=null&&s.lng!=null&&Number.isFinite(Number(s.lat))&&Number.isFinite(Number(s.lng));}
 function osmUrl(lat,lng,dx=.008,dy=.005){
   return `https://www.openstreetmap.org/export/embed.html?bbox=${lng-dx}%2C${lat-dy}%2C${lng+dx}%2C${lat+dy}&layer=mapnik&marker=${lat}%2C${lng}`;
@@ -822,7 +833,7 @@ function renderDetail(){
     plans.length?block("Plans & documents",`<div class="file-list glass">${fileRows(plans,"file","Document")}</div>`):"",
     media.length?block("Médias",`<div class="file-list glass">${fileRows(media,"image","Média")}</div>`):"",
     tutorials.length?block("Tutoriels",`<div class="file-list glass">${fileRows(tutorials,"play","Tutoriel")}</div>`):"",
-    contact?block("Contact",`<div class="file-list glass">${contact}</div>`):""
+    siteContactBlock(contact)
   ].join("");
   $("#courseSiteDetail").innerHTML=`<div class="detail-cols"><div>${left}</div><div>${right}</div></div>`;
 
@@ -1003,9 +1014,8 @@ function renderSiteDetail(){
   $("#placeTutorialsSection").classList.toggle("hidden",!tutorials.length);
 
   const contact=contactRows(s);
-  $("#placeContact").innerHTML=contact;
-  $("#placeContact").classList.add("glass");
-  $("#placeContactSection").classList.toggle("hidden",!contact);
+  $("#placeContactSection").innerHTML=siteContactBlock(contact);
+  $("#placeContactSection").classList.remove("hidden");
 
   if(hasGps){$("#placeMapFrame").src=osmUrl(lat,lng,.01,.006);$("#placeMapSection").classList.remove("hidden");}
   else{$("#placeMapFrame").removeAttribute("src");$("#placeMapSection").classList.add("hidden");}
