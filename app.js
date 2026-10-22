@@ -150,7 +150,16 @@ function occurrencesForCourse(c,from,to){
 }
 function trainerOccurrences(from,to){return trainerCourses.flatMap(c=>occurrencesForCourse(c,from,to)).sort((a,b)=>a.date-b.date||a.time.localeCompare(b.time));}
 function venueLabel(c){const a=c.adresseCours||{};return a.nom||a.localite||"Lieu à confirmer";}
-function roomLabel(c){return locationData(c).room||"Salle à confirmer";}
+function roomLabel(c){
+  const room=locationData(c).room||"Salle à confirmer";
+  if(!isRoomConfirmed(room))return room;
+  // Einschreibungszahlen aus genau diesem Kurs, nicht aus dem Saal-Stammdatensatz.
+  const enrolled=c.nbInscrits,capacity=c.nbPlaces;
+  if(enrolled==null||capacity==null||String(enrolled).trim()===""||String(capacity).trim()==="")return room;
+  const n=Number(enrolled),max=Number(capacity);
+  if(!Number.isFinite(n)||!Number.isFinite(max))return room;
+  return `${room} (${n}/${max})`;
+}
 
 /* ---- technical guides (unchanged) ---- */
 function technicalGuideById(id){
@@ -806,7 +815,7 @@ function block(title,inner,cls=""){return inner?`<section class="block ${cls}"><
 function renderDetail(){
   const{course:c,date,time}=selectedOccurrence,loc=locationData(c),site=loc.site,room=loc.roomObj,a=c.adresseCours||{};
   const row=scheduleRows(c).find(x=>x.heure===time),dur=row?.duree||c.duree||"",end=time?addMinutes(time,minutesFromDuration(dur)):"";
-  const roomName=room?.name||(isRoomConfirmed(loc.room)?loc.room:"Salle à confirmer");
+  const roomName=roomLabel(c);
   const hero=site?siteAssetUrl(site.hero||site.heroThumb||""):"";
   const bg=$("#detailHeroBg");
   bg.style.backgroundImage=hero?`url("${hero.replace(/"/g,'%22')}")`:"";
