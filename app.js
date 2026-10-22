@@ -152,8 +152,7 @@ function trainerOccurrences(from,to){return trainerCourses.flatMap(c=>occurrence
 function venueLabel(c){const a=c.adresseCours||{};return a.nom||a.localite||"Lieu à confirmer";}
 function roomLabel(c){
   const room=locationData(c).room||"Salle à confirmer";
-  if(!isRoomConfirmed(room))return room;
-  // Einschreibungszahlen aus genau diesem Kurs, nicht aus dem Saal-Stammdatensatz.
+  // Einschreibungszahlen immer aus genau diesem Kurs ziehen – auch wenn der Saal noch nicht bestätigt ist.
   const enrolled=c.nbInscrits,capacity=c.nbPlaces;
   if(enrolled==null||capacity==null||String(enrolled).trim()===""||String(capacity).trim()==="")return room;
   const n=Number(enrolled),max=Number(capacity);
