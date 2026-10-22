@@ -247,11 +247,14 @@ let lastAppliedUserId=null;
 
 /* ---------- data ---------- */
 async function loadAll(){
+  // Keep a stalled external catalogue request from blocking login indefinitely.
+  const controller=new AbortController();
+  const stop=setTimeout(()=>controller.abort(),10000);
   try{
     const [r1,r2,r3]=await Promise.all([
-      fetch(DATA_URL,{cache:"no-store"}),
-      fetch("data/locations.json",{cache:"no-store"}),
-      fetch(SITES_URL+"?t="+Date.now(),{cache:"no-store"}).catch(()=>null)
+      fetch(DATA_URL,{cache:"no-store",signal:controller.signal}),
+      fetch("data/locations.json",{cache:"no-store",signal:controller.signal}),
+      fetch(SITES_URL+"?t="+Date.now(),{cache:"no-store",signal:controller.signal}).catch(()=>null)
     ]);
     if(!r1.ok)throw new Error("trainings.json");
     trainings=await r1.json();
@@ -418,13 +421,16 @@ async function loginWithPassword(){
   authMessage("Connexion…");
   $("#authLoginButton").disabled=true;
   try{
-    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    const {data,error}=await Promise.race([
+      sb.auth.signInWithPassword({email,password}),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error("AUTH_TIMEOUT")),15000))
+    ]);
     if(error)throw error;
     authMessage("");
     await applyAuthenticatedSession(data.session,{openHome:true});
   }catch(err){
     console.error(err);
-    authMessage("E-mail ou mot de passe incorrect.","error");
+    authMessage(err?.message==="AUTH_TIMEOUT"?"Le serveur de connexion ne répond pas. Vérifiez votre réseau et réessayez.":"Connexion impossible. Vérifiez vos identifiants ou votre connexion.","error");
   }finally{$("#authLoginButton").disabled=false;}
 }
 
@@ -511,8 +517,12 @@ async function initAuth(){
       setTimeout(()=>{if(!already())applyAuthenticatedSession(session,{openHome:true});},0);
     }
   });
-  const {data:{session}}=await sb.auth.getSession();
-  authSession=session||null;
+  const result=await Promise.race([
+    sb.auth.getSession(),
+    new Promise((_,reject)=>setTimeout(()=>reject(new Error("SESSION_TIMEOUT")),12000))
+  ]).catch(err=>{console.error("Session init",err);return null;});
+  const session=result?.data?.session||null;
+  authSession=session;
   await applyAuthenticatedSession(session,{openHome:!!session});
 }
 
