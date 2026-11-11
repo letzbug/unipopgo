@@ -634,7 +634,7 @@ function bindTicketPrint(today){
   const btn=$("#printWelcomeSheet");
   if(btn)btn.onclick=()=>printCourseSheets(today);
 }
-function ticketHtml(o,hasTodayCourses){
+function ticketHtml(o,showPrintButton){
   const c=o.course,end=endTime(o),cd=countdownLabel(o),loc=locationData(c);
   const hero=loc.site?siteAssetUrl(loc.site.heroThumb||loc.site.hero||""):"";
   const attrs=occAttrs(o);
@@ -647,7 +647,7 @@ function ticketHtml(o,hasTodayCourses){
     </button>
     <div class="ticket-stub">
       ${hero?`<img src="${escapeHtml(hero)}" alt="" loading="lazy">`:""}
-      ${hasTodayCourses?`<button id="printWelcomeSheet" class="ticket-print" type="button" aria-label="Imprimer les fiches d’accueil de tous les cours d’aujourd’hui">${icon("print")}<span>Imprimer ma fiche d'accueil</span></button>`:""}
+      ${showPrintButton?`<button id="printWelcomeSheet" class="ticket-print" type="button" aria-label="Imprimer les fiches d’accueil de tous les cours de cette journée">${icon("print")}<span>Imprimer ma fiche d'accueil</span></button>`:""}
       <button class="ticket-status occurrence" type="button" ${attrs} aria-label="Voir les détails du prochain cours">
         <span class="ticket-count">${escapeHtml(cd.text)}</span>
         <span class="ticket-day">${escapeHtml(longDate(o.date))}</span>
@@ -673,8 +673,14 @@ function renderHome(){
   const upcoming=trainerOccurrences(todayStart,futureEnd).filter(o=>occEnd(o)>now);
   const hero=upcoming[0]||null;
   const heroKey=hero?occKey(hero):"";
+  // Print all courses on the date of the displayed ticket (today, tomorrow, etc.),
+  // including courses that may already have ended when the ticket is for today.
+  const printDayCourses=hero?trainerOccurrences(
+    new Date(hero.date.getFullYear(),hero.date.getMonth(),hero.date.getDate()),
+    new Date(hero.date.getFullYear(),hero.date.getMonth(),hero.date.getDate(),23,59,59)
+  ):[];
 
-  $("#nextTicket").innerHTML=hero?ticketHtml(hero,today.length>0):emptyState("Aucun prochain cours trouvé.");
+  $("#nextTicket").innerHTML=hero?ticketHtml(hero,true):emptyState("Aucun prochain cours trouvé.");
 
   const otherToday=today.filter(o=>occKey(o)!==heroKey);
   const todayType=calendarDayType(todayStart);
@@ -691,7 +697,7 @@ function renderHome(){
   $("#nextCourses").innerHTML=next.length?rowList(next):emptyState("Aucun autre cours prévu pour le moment.");
 
   bindOccurrences();
-  if(hero&&today.length)bindTicketPrint(today);
+  if(hero)bindTicketPrint(printDayCourses);
   showScreen("homeScreen",false);
 }
 setInterval(()=>{
