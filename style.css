@@ -437,7 +437,7 @@ html:not(.is-guest) .skyline img{opacity:.35}
   .ticket-day{font-size:12px}
 }
 @media (min-width:700px){
-  .ticket-stub .ticket-print{margin-top:12px}
+  .ticket-stub .ticket-print{margin-top:12px;margin-bottom:28px}
   .ticket-stub .ticket-status{margin-top:3px}
   .ticket-stub .ticket-count{margin-top:0}
 }
