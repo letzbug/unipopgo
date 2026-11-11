@@ -418,6 +418,30 @@ html:not(.is-guest) .skyline img{opacity:.35}
 .ticket-day::first-letter{text-transform:uppercase}
 .ticket .stamp{position:absolute;left:4px;top:-14px}
 
+/* Welcome sheet action between venue photo and next-course date. */
+.ticket-main{appearance:none;border:0;background:transparent;color:inherit;text-align:left;width:100%;cursor:pointer}
+.ticket-stub{gap:8px}
+.ticket-print{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:43px;padding:9px 11px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:#fff;color:#18275a;font-family:inherit;font-weight:700;font-size:13px;line-height:1.22;cursor:pointer;text-align:center;overflow-wrap:anywhere}
+.ticket-print .i{width:19px;height:19px;flex:none}
+.ticket-print:focus-visible,.ticket-main:focus-visible,.ticket-status:focus-visible{outline:3px solid #a9d7ff;outline-offset:3px}
+.ticket-status{appearance:none;border:0;background:transparent;color:inherit;padding:0;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;cursor:pointer;min-width:0}
+.ticket-stub .ticket-count,.ticket-stub .ticket-day{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+/* On narrow phones the venue image remains to the right; the action and date sit to its left. */
+@media (max-width:699px){
+  .ticket{--stub-h:155px}
+  .ticket-stub{padding-right:calc(min(42%,170px) + 10px);justify-content:center}
+  .ticket-stub img{top:12px;bottom:12px;height:calc(100% - 24px)}
+  .ticket-print{font-size:11px;padding:6px 5px;min-height:46px;gap:4px}
+  .ticket-print .i{width:16px;height:16px}
+  .ticket-count{font-size:clamp(19px,4.7vw,28px)}
+  .ticket-day{font-size:12px}
+}
+@media (min-width:700px){
+  .ticket-stub .ticket-print{margin-top:12px}
+  .ticket-stub .ticket-status{margin-top:3px}
+  .ticket-stub .ticket-count{margin-top:0}
+}
+
 /* ---- rows (course list) ---- */
 .row-list{overflow:hidden;padding:4px 0}
 .row{

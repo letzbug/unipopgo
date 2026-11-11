@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UniPop — Fiche d'accueil</title>
+<style>
+  :root{color-scheme:light;font-family:Arial,Helvetica,sans-serif;color:#090c15;background:#eceef3}
+  *{box-sizing:border-box}
+  body{margin:0}
+  .toolbar{display:flex;justify-content:center;align-items:center;gap:14px;padding:16px;flex-wrap:wrap}
+  .toolbar button{border:0;border-radius:10px;background:#13234f;color:#fff;font:700 16px Arial;padding:12px 25px;cursor:pointer}
+  .toolbar span{font:13px Arial;color:#45506a}
+  .sheet{width:210mm;min-height:297mm;margin:0 auto 20px;background:white;display:flex;flex-direction:column;text-align:center;box-shadow:0 8px 35px #0002;overflow:visible}
+  .brand{background:#10204b;color:white;padding:12mm 6mm 10mm;font-size:clamp(50px,10.8vw,108px);font-weight:900;letter-spacing:-.045em;line-height:1;white-space:nowrap}
+  .sheet-body{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:7mm 13mm 8mm;gap:8mm;min-height:0}
+  .tag{display:inline-block;background:#e3eaf8;color:#142653;padding:2.5mm 8mm;border-radius:6mm;font-size:20px;font-weight:700}
+  .trainer,.course,.time,.room{overflow-wrap:anywhere;word-break:normal;hyphens:auto;max-width:100%}
+  .trainer{font-size:66px;font-weight:850;line-height:1.08;letter-spacing:-.042em;margin:6mm 0 0}
+  .rule{height:1px;background:#b8c3d8;margin:0}
+  .course{font-size:34px;line-height:1.16;font-weight:750;letter-spacing:-.018em;margin:0}
+  .time{font-size:69px;line-height:1.1;font-weight:850;letter-spacing:-.04em;white-space:normal;font-variant-numeric:tabular-nums}
+  .room{font-size:100px;line-height:1.04;font-weight:900;letter-spacing:-.035em;margin-top:5mm}
+  .footer{background:#10204b;color:#fff;border-radius:25mm;font-size:29px;font-style:italic;font-weight:700;padding:3mm;margin-top:2mm}
+  @page{size:A4 portrait;margin:0}
+  @media print{
+    html,body{background:#fff;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .toolbar{display:none!important}
+    .sheet{margin:0;width:210mm;min-height:297mm;height:297mm;box-shadow:none;break-inside:avoid;page-break-inside:avoid}
+  }
+  @media screen and (max-width:850px){.sheet{transform-origin:top left;zoom:var(--preview-scale,1)}.brand{font-size:108px}}
+</style>
+</head>
+<body>
+<div class="toolbar"><button type="button" id="print">Imprimer / Enregistrer en PDF</button><span>Format A4 · portrait</span></div>
+<main class="sheet" id="sheet" aria-label="Fiche d'accueil UniPop">
+  <div class="brand">UNIPOP</div>
+  <div class="sheet-body" id="body">
+    <section><div class="tag">Votre formateur</div><h1 class="trainer" id="trainer"></h1></section>
+    <div class="rule"></div>
+    <section><h2 class="course" id="course"></h2></section>
+    <div class="rule"></div>
+    <section><div class="time" id="time"></div></section>
+    <section><div class="tag">Salle :</div><div class="room" id="room"></div></section>
+    <div class="footer">Bienvenue</div>
+  </div>
+</main>
+<script>
+(function(){
+  const q=new URLSearchParams(location.search);
+  const text=(id,v)=>document.getElementById(id).textContent=v;
+  text('trainer',q.get('trainer')||'Formateur');
+  text('course',q.get('course')||'Cours');
+  text('time',[q.get('time')||'Horaire à confirmer',q.get('end')].filter(Boolean).join(' – '));
+  text('room',q.get('room')||'Salle à confirmer');
+  // Shrink only as needed. No ellipsis, no line clamp: exceptionally long values wrap.
+  function fit(){
+    const body=document.getElementById('body');
+    const sheet=document.getElementById('sheet');
+    const elements=[['trainer',66,25],['course',34,17],['time',69,30],['room',100,32]];
+    for(const [id,max] of elements)document.getElementById(id).style.fontSize=max+'px';
+    for(let pass=0;pass<90;pass++){
+      if(body.scrollHeight<=body.clientHeight+2 && sheet.scrollHeight<=sheet.clientHeight+2)break;
+      let changed=false;
+      for(const [id,max,min] of elements){
+        const el=document.getElementById(id),n=parseFloat(el.style.fontSize);
+        if(n>min){el.style.fontSize=Math.max(min,n-1)+'px';changed=true;}
+      }
+      if(!changed)break; // If extraordinary content cannot fit, allow additional printed pages, never crop text.
+    }
+    if(body.scrollHeight>body.clientHeight+2){
+      sheet.style.height='auto';sheet.style.minHeight='297mm';
+      sheet.style.breakInside='auto';sheet.style.pageBreakInside='auto';
+    }
+    if(matchMedia('screen and (max-width:850px)').matches){
+      document.documentElement.style.setProperty('--preview-scale',Math.min(1,(innerWidth-20)/794));
+    }
+  }
+  document.getElementById('print').onclick=()=>{fit();window.print()};
+  window.addEventListener('resize',fit);
+  window.addEventListener('beforeprint',fit);
+  fit();
+})();
+</script>
+</body>
+</html>
