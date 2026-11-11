@@ -617,23 +617,24 @@ function bindOccurrences(){
 }
 
 /* ---------- the ticket (next course) ---------- */
-function printCourseSheet(o){
-  const c=o.course;
-  const params=new URLSearchParams({
+function printCourseSheets(occurrences){
+  if(!occurrences.length)return;
+  const sheets=occurrences.map(o=>({
     trainer:currentTrainer||"Formateur",
-    course:c.intitule||"Cours",
+    course:o.course.intitule||"Cours",
     time:o.time||"Horaire à confirmer",
     end:endTime(o)||"",
-    room:locationData(c).room||"Salle à confirmer"
-  });
-  // Open a separate print preview; no new server, library, or data permissions needed.
+    room:locationData(o.course).room||"Salle à confirmer"
+  }));
+  // All of today's courses, one A4 page per course, in a single print job.
+  const params=new URLSearchParams({sheets:JSON.stringify(sheets)});
   window.open(`fiche-accueil.html?${params.toString()}`,"_blank","noopener");
 }
-function bindTicketPrint(o){
+function bindTicketPrint(today){
   const btn=$("#printWelcomeSheet");
-  if(btn)btn.onclick=()=>printCourseSheet(o);
+  if(btn)btn.onclick=()=>printCourseSheets(today);
 }
-function ticketHtml(o){
+function ticketHtml(o,hasTodayCourses){
   const c=o.course,end=endTime(o),cd=countdownLabel(o),loc=locationData(c);
   const hero=loc.site?siteAssetUrl(loc.site.heroThumb||loc.site.hero||""):"";
   const attrs=occAttrs(o);
@@ -646,7 +647,7 @@ function ticketHtml(o){
     </button>
     <div class="ticket-stub">
       ${hero?`<img src="${escapeHtml(hero)}" alt="" loading="lazy">`:""}
-      <button id="printWelcomeSheet" class="ticket-print" type="button" aria-label="Imprimer la fiche d'accueil de ce cours">${icon("print")}<span>Imprimer ma fiche d'accueil</span></button>
+      ${hasTodayCourses?`<button id="printWelcomeSheet" class="ticket-print" type="button" aria-label="Imprimer les fiches d’accueil de tous les cours d’aujourd’hui">${icon("print")}<span>Imprimer ma fiche d'accueil</span></button>`:""}
       <button class="ticket-status occurrence" type="button" ${attrs} aria-label="Voir les détails du prochain cours">
         <span class="ticket-count">${escapeHtml(cd.text)}</span>
         <span class="ticket-day">${escapeHtml(longDate(o.date))}</span>
@@ -673,7 +674,7 @@ function renderHome(){
   const hero=upcoming[0]||null;
   const heroKey=hero?occKey(hero):"";
 
-  $("#nextTicket").innerHTML=hero?ticketHtml(hero):emptyState("Aucun prochain cours trouvé.");
+  $("#nextTicket").innerHTML=hero?ticketHtml(hero,today.length>0):emptyState("Aucun prochain cours trouvé.");
 
   const otherToday=today.filter(o=>occKey(o)!==heroKey);
   const todayType=calendarDayType(todayStart);
@@ -690,7 +691,7 @@ function renderHome(){
   $("#nextCourses").innerHTML=next.length?rowList(next):emptyState("Aucun autre cours prévu pour le moment.");
 
   bindOccurrences();
-  if(hero)bindTicketPrint(hero);
+  if(hero&&today.length)bindTicketPrint(today);
   showScreen("homeScreen",false);
 }
 setInterval(()=>{

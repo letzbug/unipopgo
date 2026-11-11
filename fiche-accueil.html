@@ -21,56 +21,85 @@
   .time{font-size:69px;line-height:1.1;font-weight:850;letter-spacing:-.04em;white-space:normal;font-variant-numeric:tabular-nums}
   .room{font-size:100px;line-height:1.04;font-weight:900;letter-spacing:-.035em;margin-top:5mm}
   .footer{background:#10204b;color:#fff;border-radius:25mm;font-size:29px;font-style:italic;font-weight:700;padding:3mm;margin-top:2mm}
+  .sheet:not(:last-child){break-after:page;page-break-after:always}
   @page{size:A4 portrait;margin:0}
   @media print{
     html,body{background:#fff;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .toolbar{display:none!important}
     .sheet{margin:0;width:210mm;min-height:297mm;height:297mm;box-shadow:none;break-inside:avoid;page-break-inside:avoid}
+    .sheet:not(:last-child){break-after:page;page-break-after:always}
   }
   @media screen and (max-width:850px){.sheet{transform-origin:top left;zoom:var(--preview-scale,1)}.brand{font-size:108px}}
 </style>
 </head>
 <body>
 <div class="toolbar"><button type="button" id="print">Imprimer / Enregistrer en PDF</button><span>Format A4 · portrait</span></div>
-<main class="sheet" id="sheet" aria-label="Fiche d'accueil UniPop">
+<div id="sheets">
+<main class="sheet" aria-label="Fiche d'accueil UniPop">
   <div class="brand">UNIPOP</div>
-  <div class="sheet-body" id="body">
-    <section><div class="tag">Votre formateur</div><h1 class="trainer" id="trainer"></h1></section>
+  <div class="sheet-body">
+    <section><div class="tag">Votre formateur</div><h1 class="trainer"></h1></section>
     <div class="rule"></div>
-    <section><h2 class="course" id="course"></h2></section>
+    <section><h2 class="course"></h2></section>
     <div class="rule"></div>
-    <section><div class="time" id="time"></div></section>
-    <section><div class="tag">Salle :</div><div class="room" id="room"></div></section>
+    <section><div class="time"></div></section>
+    <section><div class="tag">Salle :</div><div class="room"></div></section>
     <div class="footer">Bienvenue</div>
   </div>
 </main>
+</div>
 <script>
 (function(){
   const q=new URLSearchParams(location.search);
-  const text=(id,v)=>document.getElementById(id).textContent=v;
-  text('trainer',q.get('trainer')||'Formateur');
-  text('course',q.get('course')||'Cours');
-  text('time',[q.get('time')||'Horaire à confirmer',q.get('end')].filter(Boolean).join(' – '));
-  text('room',q.get('room')||'Salle à confirmer');
-  // Shrink only as needed. No ellipsis, no line clamp: exceptionally long values wrap.
-  function fit(){
-    const body=document.getElementById('body');
-    const sheet=document.getElementById('sheet');
+  let items=[];
+  if(q.has('sheets')){
+    try{
+      const value=JSON.parse(q.get('sheets'));
+      if(Array.isArray(value))items=value.filter(v=>v&&typeof v==='object');
+    }catch(e){console.warn('Invalid print data',e);}
+  }else{
+    // Keep support for single-course URLs created by older app versions.
+    items=[Object.fromEntries(['trainer','course','time','end','room'].map(k=>[k,q.get(k)]))];
+  }
+  const container=document.getElementById('sheets');
+  const prototype=container.querySelector('.sheet');
+  if(!items.length){
+    container.textContent='Aucun cours à imprimer aujourd’hui.';
+    document.getElementById('print').disabled=true;
+    return;
+  }
+  items.forEach((item,index)=>{
+    const sheet=index===0?prototype:prototype.cloneNode(true);
+    if(index)container.appendChild(sheet);
+    const set=(cls,value)=>sheet.querySelector('.'+cls).textContent=value;
+    set('trainer',item.trainer||'Formateur');
+    set('course',item.course||'Cours');
+    set('time',[item.time||'Horaire à confirmer',item.end].filter(Boolean).join(' – '));
+    set('room',item.room||'Salle à confirmer');
+  });
+  document.querySelector('.toolbar span').textContent=`${items.length} fiche${items.length>1?'s':''} · A4 portrait · un seul document`;
+  // Independent sizing for each page, so a long title never shrinks other pages.
+  function fitSheet(sheet){
+    const body=sheet.querySelector('.sheet-body');
     const elements=[['trainer',66,25],['course',34,17],['time',69,30],['room',100,32]];
-    for(const [id,max] of elements)document.getElementById(id).style.fontSize=max+'px';
+    for(const [cls,max] of elements)sheet.querySelector('.'+cls).style.fontSize=max+'px';
     for(let pass=0;pass<90;pass++){
-      if(body.scrollHeight<=body.clientHeight+2 && sheet.scrollHeight<=sheet.clientHeight+2)break;
+      if(body.scrollHeight<=body.clientHeight+2&&sheet.scrollHeight<=sheet.clientHeight+2)break;
       let changed=false;
-      for(const [id,max,min] of elements){
-        const el=document.getElementById(id),n=parseFloat(el.style.fontSize);
+      for(const [cls,max,min] of elements){
+        const el=sheet.querySelector('.'+cls),n=parseFloat(el.style.fontSize);
         if(n>min){el.style.fontSize=Math.max(min,n-1)+'px';changed=true;}
       }
-      if(!changed)break; // If extraordinary content cannot fit, allow additional printed pages, never crop text.
+      if(!changed)break;
     }
     if(body.scrollHeight>body.clientHeight+2){
+      // Never crop content even for exceptionally long text.
       sheet.style.height='auto';sheet.style.minHeight='297mm';
       sheet.style.breakInside='auto';sheet.style.pageBreakInside='auto';
     }
+  }
+  function fit(){
+    container.querySelectorAll('.sheet').forEach(fitSheet);
     if(matchMedia('screen and (max-width:850px)').matches){
       document.documentElement.style.setProperty('--preview-scale',Math.min(1,(innerWidth-20)/794));
     }
