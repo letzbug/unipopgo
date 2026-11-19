@@ -358,6 +358,14 @@ html:not(.is-guest) .skyline img{opacity:.35}
 .ticket:active{transform:scale(.99)}
 .ticket-main{display:flex;flex-direction:column;padding:24px 24px 22px;min-width:0;container-type:inline-size}
 .ticket-label{color:var(--muted);font-size:14px;font-weight:600}
+/* UniPop sigle: discrete branding in the top-right of the next-course card. */
+.ticket-main{position:relative}
+.ticket-main .ticket-brand{
+  position:absolute;top:11px;right:8px;
+  width:38px;height:auto;display:block;
+  object-fit:contain;pointer-events:none;
+}
+@media (min-width:700px){.ticket-main .ticket-brand{top:22px;right:22px;width:52px}}
 .ticket-time{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;margin:6px 0 10px}
 .ticket-time b{
   font-family:var(--display);

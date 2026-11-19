@@ -1,13 +1,13 @@
 /* UniPop Go v2 service worker.
    Own cache prefix ("unipop-go2-") so it never touches the caches of the
    old app (which only clears "unipop-formateur-*"), and vice versa. */
-const VERSION="2.0.9";
+const VERSION="2.0.10";
 const PREFIX="unipop-go2-";
 const CACHE=PREFIX+VERSION;
 const CORE=[
-  "./","./index.html","./style.css?v=2.0.8","./app.js?v=2.0.9",
+  "./","./index.html","./style.css?v=2.0.10","./app.js?v=2.0.10",
   "./fiche-accueil.html","./data/locations.json",
-  "./assets/icon.svg","./assets/icon-180.png","./assets/icon-192.png","./assets/skyline.webp"
+  "./assets/unipop-sigle.png","./assets/icon.svg","./assets/icon-180.png","./assets/icon-192.png","./assets/skyline.webp"
 ];
 
 self.addEventListener("install",e=>{

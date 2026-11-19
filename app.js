@@ -641,6 +641,7 @@ function ticketHtml(o,showPrintButton){
   return `<article class="ticket${cd.live?" is-live":""}">
     <button class="ticket-main occurrence" type="button" ${attrs} aria-label="Prochain cours : ${escapeHtml(c.intitule||"Cours")}, ${escapeHtml(longDate(o.date))} ${escapeHtml(o.time||"")}">
       <span class="ticket-label">Prochain cours</span>
+      <img class="ticket-brand" src="assets/unipop-sigle.png" alt="" aria-hidden="true">
       <span class="ticket-time"><b>${escapeHtml(o.time||"--:--")}</b>${end?`<span>→ ${escapeHtml(end)}</span>`:""}</span>
       <strong class="ticket-title">${escapeHtml(c.intitule||"Cours")}</strong>
       <span class="ticket-place">${icon("pin")}<span>${escapeHtml(venueLabel(c))}<br><em>${escapeHtml(roomLabel(c))}</em></span></span>
