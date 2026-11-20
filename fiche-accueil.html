@@ -11,7 +11,8 @@
   .toolbar button{border:0;border-radius:10px;background:#13234f;color:#fff;font:700 16px Arial;padding:12px 25px;cursor:pointer}
   .toolbar span{font:13px Arial;color:#45506a}
   .sheet{width:210mm;min-height:297mm;margin:0 auto 20px;background:white;display:flex;flex-direction:column;text-align:center;box-shadow:0 8px 35px #0002;overflow:visible}
-  .brand{background:#10204b;color:white;padding:12mm 6mm 10mm;font-size:clamp(50px,10.8vw,108px);font-weight:900;letter-spacing:-.045em;line-height:1;white-space:nowrap}
+  .brand{position:relative;background:#10204b;color:white;padding:12mm 6mm 10mm;font-size:clamp(50px,10.8vw,108px);font-weight:900;letter-spacing:-.045em;line-height:1;white-space:nowrap}
+  .brand-mark{position:absolute;left:11mm;top:50%;transform:translateY(-50%);width:18mm;height:18mm;padding:1.7mm;object-fit:contain;background:#fff;border-radius:4mm;box-sizing:border-box}
   .sheet-body{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:7mm 13mm 8mm;gap:8mm;min-height:0}
   .tag{display:inline-block;background:#e3eaf8;color:#142653;padding:2.5mm 8mm;border-radius:6mm;font-size:20px;font-weight:700}
   .trainer,.course,.time,.room{overflow-wrap:anywhere;word-break:normal;hyphens:auto;max-width:100%}
@@ -36,7 +37,7 @@
 <div class="toolbar"><button type="button" id="print">Imprimer / Enregistrer en PDF</button><span>Format A4 · portrait</span></div>
 <div id="sheets">
 <main class="sheet" aria-label="Fiche d'accueil UniPop">
-  <div class="brand">UNIPOP</div>
+  <div class="brand"><img class="brand-mark" src="assets/unipop-sigle.png" alt="" aria-hidden="true">UNIPOP</div>
   <div class="sheet-body">
     <section><div class="tag">Votre formateur</div><h1 class="trainer"></h1></section>
     <div class="rule"></div>
